@@ -9,8 +9,8 @@
 const CHARACTERS = {
   saki: {
     id: "saki",
-    name: "結城 咲",
-    short: "咲",
+    name: "結城 あかり",
+    short: "あかり",
     color: "#ff7a59",          // テーマカラー（コーラル）
     color2: "#ffd2a8",
     title: "幼なじみの太陽",
@@ -52,7 +52,7 @@ const CHARACTERS = {
     short: "シオン",
     color: "#8e6fd6",          // テーマカラー（バイオレット）
     color2: "#cdbdf2",
-    title: "孤高の旋律",
+    title: "高嶺の花の先輩",
     male: true,
     palette: {
       hair: "#b3a3c9", hair2: "#8a7aa6", hairHi: "#ddd1ee",
@@ -123,8 +123,13 @@ function openEye(cx, iris, irisDark, white, scale, lidShift = 0, droop = false) 
 }
 
 /* 眉 */
-function svgBrows(exp, p) {
+function svgBrows(exp, p, male) {
   const c = p.brow;
+  // 男子はキリッとした太めの直線眉（クール＝イケメン寄り）
+  if (male && exp !== "angry" && exp !== "sad" && exp !== "surprise") {
+    return `<path d="M 104 126 L 135 130" stroke="${c}" stroke-width="5" stroke-linecap="round"/>
+            <path d="M 196 126 L 165 130" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`;
+  }
   switch (exp) {
     case "angry":
       return `<path d="M 102 130 L 132 138" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
@@ -313,7 +318,7 @@ function buildPortrait(charId, exp = "normal") {
     <path d="M 150 232 Q 138 240 126 230" fill="none" stroke="${SKIN_LINE}" stroke-width="1.5" opacity="0.5"/>
 
     ${svgBlush(exp)}
-    ${svgBrows(exp, p)}
+    ${svgBrows(exp, p, c.male)}
     ${svgEye(120, exp, p)}
     ${svgEye(180, exp, p)}
     <!-- 鼻 -->

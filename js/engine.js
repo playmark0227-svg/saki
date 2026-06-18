@@ -16,7 +16,7 @@
 
   /* ---------------- ゲーム状態 ---------------- */
   const defaultState = () => ({
-    name: "あなた",
+    name: "さき",
     day: 0,
     scene: STORY_START,
     page: 0,
@@ -130,7 +130,7 @@
    * 描画
    * ===================================================================== */
   function applyName(t) {
-    return (t || "").replace(/\{name\}/g, state.name || "あなた");
+    return (t || "").replace(/\{name\}/g, state.name || "さき");
   }
 
   function setBackground(bg) {
@@ -332,12 +332,13 @@
    * ===================================================================== */
   function showNameModal() {
     els["name-modal"].classList.add("show");
-    els["name-input"].value = state.name === "あなた" ? "" : state.name;
+    els["name-input"].value = state.name && state.name !== "あなた" ? state.name : "さき";
     els["name-input"].focus();
+    els["name-input"].select();
   }
   function confirmName() {
     const v = els["name-input"].value.trim();
-    state.name = v || "ハル";
+    state.name = v || "さき";
     els["name-modal"].classList.remove("show");
     Sound.select();
     gotoScene(STORY[state.scene].next);
