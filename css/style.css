@@ -23,20 +23,29 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* モバイルは全画面（100dvh でアドレスバー込みに対応）。
+   広い画面のときだけ「ゲームウィンドウ」風に中央配置する。 */
 #app {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  max-width: 1100px;
-  max-height: 720px;
-  margin: auto;
-  inset: 0;
-  position: absolute;
+  height: 100dvh;
+  margin: 0;
   overflow: hidden;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.6);
+  background: #1a1320;
 }
-@media (min-aspect-ratio: 16/10) {
-  #app { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+@media (min-width: 1024px) and (min-height: 700px) {
+  #app {
+    width: 1100px;
+    height: 720px;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 16px;
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.6);
+  }
 }
 
 .screen { position: absolute; inset: 0; display: none; }
@@ -122,6 +131,9 @@ html, body {
   position: absolute; inset: 0; z-index: 10;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 24px;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding-top: calc(24px + env(safe-area-inset-top));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 .title-sub { font-size: 15px; letter-spacing: .4em; color: var(--pink-deep); margin-bottom: 10px; text-shadow: 0 1px 0 #fff; }
 .title-main {
@@ -321,13 +333,88 @@ html, body {
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* スマホ調整 */
-@media (max-width: 560px) {
-  #affection-bar { transform: scale(.82); transform-origin: top left; }
-  #stage { bottom: 200px; width: 64vw; }
-  .aff-meta { min-width: 96px; }
+/* =====================================================================
+ * レスポンシブ（スマホ／タブレット）
+ * ===================================================================== */
+
+/* ノッチ等のセーフエリアを避ける（全デバイス共通） */
+#hud { top: calc(12px + env(safe-area-inset-top)); right: calc(12px + env(safe-area-inset-right)); }
+#affection-bar { top: calc(12px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left)); }
+#dialogue { padding-bottom: calc(26px + env(safe-area-inset-bottom)); }
+
+/* ───── タブレット〜小型ラップトップ（横）───── */
+@media (max-width: 860px) {
+  #stage { width: min(360px, 52vw); }
 }
-@media (max-height: 520px) {
-  #stage { bottom: 150px; width: 200px; }
-  #dialogue { min-height: 140px; }
+
+/* ───── スマホ縦（幅が狭い）───── */
+@media (max-width: 600px) {
+  /* 好感度パネル：4人ぶんをコンパクトに */
+  #affection-bar { padding: 6px 8px; gap: 4px; border-radius: 12px; }
+  .aff-face { width: 30px; height: 30px; border-width: 1.5px; }
+  .aff-meta { min-width: 76px; gap: 0; }
+  .aff-name { font-size: 10px; }
+  .aff-hearts { font-size: 10px; letter-spacing: 0; }
+  .aff-track { height: 4px; }
+
+  /* HUD：タップしやすく、文字は小さめ */
+  #hud { gap: 5px; }
+  .hud-btn { padding: 8px 9px; font-size: 12px; border-radius: 9px; }
+
+  /* 立ち絵：中央寄せ・縦画面に合わせて */
+  #stage { width: min(74vw, 300px); bottom: 168px; }
+
+  /* セリフ枠：読みやすさ優先 */
+  #dialogue { padding-left: 12px; padding-right: 12px; min-height: 150px; }
+  .dialog-box { padding: 16px 16px 16px; border-radius: 16px; }
+  #speaker { font-size: 14px; padding: 4px 16px; left: 16px; top: -16px; }
+  #text { font-size: 17px; line-height: 1.8; }
+
+  /* 選択肢：指で押しやすい大きさに */
+  #choices { gap: 10px; }
+  .choice { padding: 14px 14px; font-size: 15px; }
+
+  /* タイトル */
+  .title-sub { font-size: 12px; letter-spacing: .25em; }
+  .title-tag { font-size: 12px; }
+  .title-menu { width: min(360px, 86vw); margin-top: 26px; }
+  .btn { padding: 15px 20px; font-size: 16px; }
+
+  /* エンディング */
+  .ending-inner { padding: 38px 18px 60px; }
+  .ending-portrait { width: 160px; }
+  .ending-body { font-size: 15px; line-height: 1.95; }
+
+  #toast { bottom: 175px; }
+}
+
+/* ───── ごく小さい端末（iPhone SE 等）───── */
+@media (max-width: 360px) {
+  .aff-meta { min-width: 62px; }
+  .aff-hearts { display: none; }     /* スペース確保のためハートは省略 */
+  #hud { gap: 4px; }
+  .hud-btn { padding: 6px 7px; font-size: 11px; }
+  #text { font-size: 16px; }
+  #stage { width: 78vw; bottom: 156px; }
+}
+
+/* ───── スマホ横（高さが低い）───── */
+@media (max-height: 480px) and (orientation: landscape) {
+  #affection-bar { transform: scale(.8); transform-origin: top left; }
+  #stage { width: min(34vh, 170px); bottom: 120px; }
+  #dialogue { min-height: 112px; }
+  .dialog-box { min-height: 84px; padding: 12px 18px; }
+  #text { font-size: 15px; line-height: 1.6; }
+  #choices { gap: 7px; }
+  .choice { padding: 9px 14px; font-size: 14px; }
+  .title-main { font-size: clamp(26px, 6vw, 44px); }
+  .title-menu { margin-top: 16px; gap: 9px; }
+  .btn { padding: 10px 18px; }
+}
+
+/* 細かな指タップ最適化：ホバー不可端末では押下時のみ強調 */
+@media (hover: none) {
+  .choice:hover { background: linear-gradient(135deg,#fff,#ffeef5); color: var(--pink-deep); transform: none; }
+  .choice:active { background: linear-gradient(135deg, var(--pink), var(--pink-deep)); color: #fff; }
+  .btn:hover { transform: none; }
 }
