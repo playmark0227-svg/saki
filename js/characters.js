@@ -391,6 +391,36 @@ function buildFaceIcon(charId, exp = "smile") {
   return `<div class="face-icon" style="--c:${CHARACTERS[charId].color}">${buildPortrait(charId, exp)}</div>`;
 }
 
+/* =====================================================================
+ * AI生成イラスト（任意）
+ *  images/ に下記ファイルを置くと立ち絵がそのイラストに切り替わる。
+ *  ファイルが無い／読み込めない場合は自動でSVG立ち絵にフォールバックする。
+ *  表情ごとに変えたい場合は値をオブジェクトに（例: {normal:"...",smile:"..."}）。
+ * ===================================================================== */
+const CHAR_ART = {
+  saki:   "images/haru.png",
+  yukino: "images/rei.png",
+  hinata: "images/hinata.png",
+  shion:  "images/shion.png",
+};
+
+function resolveArt(charId, exp) {
+  const a = CHAR_ART[charId];
+  if (!a) return null;
+  if (typeof a === "string") return a;
+  return a[exp] || a.normal || a.smile || Object.values(a)[0];
+}
+
+/* 立ち絵を返す：AI画像があれば<img>、無ければ/失敗時はSVGへフォールバック */
+function buildCharArt(charId, exp = "normal") {
+  const path = resolveArt(charId, exp);
+  if (!path) return buildPortrait(charId, exp);
+  return `<img class="portrait-img" src="${path}" alt="" draggable="false"
+    onerror="this.onerror=null;this.insertAdjacentHTML('afterend', window.buildPortrait('${charId}','${exp}'));this.remove();">`;
+}
+
 window.CHARACTERS = CHARACTERS;
+window.CHAR_ART = CHAR_ART;
 window.buildPortrait = buildPortrait;
+window.buildCharArt = buildCharArt;
 window.buildFaceIcon = buildFaceIcon;

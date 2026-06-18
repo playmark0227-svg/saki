@@ -186,6 +186,7 @@ html, body {
 #stage .portrait { animation: rise .45s ease-out; }
 @keyframes rise { from { transform: translateY(22px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .portrait-svg { width: 100%; height: auto; display: block; }
+.portrait-img { width: 100%; height: auto; display: block; animation: rise .45s ease-out; -webkit-user-drag: none; user-select: none; }
 
 /* 好感度パネル */
 #affection-bar {
@@ -314,7 +315,7 @@ html, body {
   border: 3px solid var(--c); background: rgba(255,255,255,.06);
   box-shadow: 0 0 40px rgba(255,150,190,.4); animation: rise .6s ease;
 }
-.ending-portrait svg { width: 100%; height: auto; display: block; }
+.ending-portrait svg, .ending-portrait img { width: 100%; height: auto; display: block; }
 .ending-body { text-align: left; color: #ffe9f1; font-size: 16px; line-height: 2; }
 .ending-body p { margin-bottom: 14px; animation: fadeup .8s both; }
 .ending-body p:nth-child(2) { animation-delay: .15s; }

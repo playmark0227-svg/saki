@@ -146,7 +146,7 @@
     const c = CHARACTERS[who];
     if (!c) { els.stage.innerHTML = ""; return; }
     els.stage.innerHTML =
-      `<div class="portrait" style="--c:${c.color};--c2:${c.color2}">${buildPortrait(who, exp || "normal")}</div>`;
+      `<div class="portrait" style="--c:${c.color};--c2:${c.color2}">${buildCharArt(who, exp || "normal")}</div>`;
     // 再アニメーションのためにリフロー
     void els.stage.offsetWidth;
     els.stage.classList.add("show");
@@ -361,7 +361,7 @@
     els["ending-title"].textContent = applyName(sc.endTitle);
     els["ending-title"].style.color = c ? c.color : "#ff7aa8";
     let html = "";
-    if (c) html += `<div class="ending-portrait" style="--c:${c.color}">${buildPortrait(sc.who, sc.exp || "happy")}</div>`;
+    if (c) html += `<div class="ending-portrait" style="--c:${c.color}">${buildCharArt(sc.who, sc.exp || "happy")}</div>`;
     html += `<div class="ending-body">` + (sc.text || []).map((t) => `<p>${applyName(t)}</p>`).join("") + `</div>`;
     html += `<p class="ending-fin">― 完 ―</p>`;
     els["ending-text"].innerHTML = html;
