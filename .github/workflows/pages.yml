@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+# 静的サイト（恋愛ゲーム）を GitHub Pages へ自動デプロイする。
+# configure-pages の enablement: true により、Settings での手動有効化なしに Pages を有効化する。
+
+on:
+  push:
+    branches: ["claude/cool-lamport-eurf76"]
+  workflow_dispatch:
+
+# Pages デプロイに必要な権限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時実行を 1 本に絞る（実行中のデプロイはキャンセルしない）
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages（未有効なら自動で有効化）
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site artifact（リポジトリ直下が静的サイト）
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
