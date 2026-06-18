@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff7aa8" />
+  <title>桜舞う、きみとの七日間 ― ドキドキ恋愛シミュレーション</title>
+  <meta name="description" content="満開の桜の下で出会った三人の少女。文化祭までの七日間、きみは誰と心を通わせる？ ブラウザだけで遊べる恋愛シミュレーションゲーム。" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌸</text></svg>" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- 全画面共通の桜エフェクト（最前面・操作は透過） -->
+    <div class="petals" id="petals"></div>
+
+    <!-- ============ タイトル画面 ============ -->
+    <section id="title-screen" class="screen active">
+      <div class="bg bg-schoolgate_petals"></div>
+      <div class="title-inner">
+        <div class="title-sub">ドキドキ恋愛シミュレーション</div>
+        <h1 class="title-main">桜舞う、<br><span class="accent">きみとの七日間</span></h1>
+        <div class="title-tag">― 満開の桜の下で、運命は動き出す ―</div>
+
+        <div class="title-menu">
+          <button class="btn" id="title-start">はじめから</button>
+          <button class="btn ghost" id="title-continue" style="display:none">つづきから</button>
+          <button class="btn ghost" id="title-about">このゲームについて</button>
+        </div>
+
+        <div id="about-box">
+          <h3>🌸 ものがたり</h3>
+          <p>
+            春。坂の上の「星河学園」へ転校してきたあなたは、満開の桜の下で
+            三人の少女と出会う。元気いっぱいの幼なじみ・<b>咲</b>、孤高の才媛・<b>雪乃</b>、
+            やわらかな光のような・<b>ひなた</b>。それぞれが、笑顔の裏に秘密を抱えていた――。
+            文化祭までの<b>七日間</b>。選んだ言葉と過ごす時間が、ふたりの距離を変えていく。
+            <br><br>
+            <b>遊び方：</b>画面をクリック（またはスペース／Enter）でセリフ送り。選択肢で好感度が変化し、
+            最も心を通わせた相手とのルートへ進みます。ヒロインごとに複数のエンディングが待っています。
+          </p>
+          <div class="chars" id="about-chars"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ゲーム画面 ============ -->
+    <section id="game-screen" class="screen">
+      <div class="bg bg-schoolgate" id="bg"></div>
+
+      <div id="affection-bar"></div>
+
+      <div id="hud">
+        <button class="hud-btn" id="btn-bgm">♪ off</button>
+        <button class="hud-btn" id="btn-save">セーブ</button>
+        <button class="hud-btn" id="btn-load">ロード</button>
+        <button class="hud-btn" id="btn-title">タイトル</button>
+      </div>
+
+      <div id="stage"></div>
+
+      <div id="dialogue">
+        <div class="dialog-box">
+          <span id="speaker" style="display:none"></span>
+          <div id="text"></div>
+          <div id="choices"></div>
+          <div id="advance-hint"></div>
+        </div>
+      </div>
+
+      <div id="daycard"><div id="daycard-text"></div></div>
+      <div id="toast"></div>
+
+      <!-- 名前入力 -->
+      <div id="name-modal">
+        <div class="name-card">
+          <h2>🌸 あなたの名前は？</h2>
+          <p>主人公（あなた）の名前を入力してください</p>
+          <input id="name-input" type="text" maxlength="8" placeholder="例：ハル" />
+          <button class="btn" id="name-ok">決定</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ エンディング画面 ============ -->
+    <section id="ending-screen" class="screen">
+      <div class="ending-inner">
+        <h2 id="ending-title"></h2>
+        <div id="ending-text"></div>
+        <div class="ending-menu">
+          <button class="btn" id="ending-restart">もう一度あそぶ</button>
+          <button class="btn ghost" id="ending-title-btn">タイトルへ</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- petals コンテナのIDをエンジンが参照するため id を共有 -->
+  <script src="js/characters.js"></script>
+  <script src="js/story.js"></script>
+  <script src="js/engine.js"></script>
+  <script>
+    // タイトルの about にキャラのミニ立ち絵を表示
+    document.addEventListener("DOMContentLoaded", function () {
+      var box = document.getElementById("about-chars");
+      if (box) {
+        box.innerHTML = ["saki", "yukino", "hinata"].map(function (id) {
+          var c = CHARACTERS[id];
+          return '<div class="mini">' + buildPortrait(id, "smile") +
+            '<b style="color:' + c.color + '">' + c.name + '</b>' +
+            '<span style="font-size:10px;color:#8a6a78">' + c.title + '</span></div>';
+        }).join("");
+      }
+    });
+  </script>
+</body>
+</html>
