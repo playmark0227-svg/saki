@@ -9,8 +9,9 @@
 const CHARACTERS = {
   saki: {
     id: "saki",
-    name: "結城 あかり",
-    short: "あかり",
+    name: "結城 陽",
+    short: "はる",
+    male: true,
     color: "#ff7a59",          // テーマカラー（コーラル）
     color2: "#ffd2a8",
     title: "幼なじみの太陽",
@@ -22,11 +23,12 @@ const CHARACTERS = {
   },
   yukino: {
     id: "yukino",
-    name: "氷室 雪乃",
-    short: "雪乃",
+    name: "氷室 怜",
+    short: "怜",
+    male: true,
     color: "#6a7bd6",          // テーマカラー（アイスブルー）
     color2: "#c3cdfb",
-    title: "孤高の才媛",
+    title: "孤高の生徒会長",
     palette: {
       hair: "#2b2940", hair2: "#1a1830", hairHi: "#5a5b86",
       eye: "#5566cc", brow: "#3a3850",
@@ -37,6 +39,7 @@ const CHARACTERS = {
     id: "hinata",
     name: "七瀬 ひなた",
     short: "ひなた",
+    male: true,
     color: "#5bbf8a",          // テーマカラー（ミントグリーン）
     color2: "#bdeccf",
     title: "やわらかな光",
@@ -183,7 +186,8 @@ function svgBlush(exp) {
 /* ---------- 髪型（キャラごと） ---------- */
 
 /* 後ろ髪 */
-function hairBack(id, p) {
+function hairBack(id, p, male) {
+  if (male) return maleHairBack(p);
   switch (id) {
     case "saki": // ショート・ボブ
       return `<path d="M 70 150 Q 60 90 150 72 Q 240 90 230 150 L 232 220
@@ -208,7 +212,8 @@ function hairBack(id, p) {
 }
 
 /* 前髪 */
-function hairFront(id, p) {
+function hairFront(id, p, male) {
+  if (male) return maleHairFront(id, p);
   switch (id) {
     case "saki": // ぱっつん寄りの軽い前髪＋アホ毛
       return `
@@ -239,6 +244,46 @@ function hairFront(id, p) {
           Q 80 112 70 152 Z" fill="${p.hair}"/>
         <path d="M 110 118 Q 100 148 114 178 L 124 174 Q 113 146 122 120 Z" fill="${p.hair}"/>
         <path d="M 150 80 Q 178 86 198 122 Q 178 100 150 100 Z" fill="${p.hairHi}" opacity="0.5"/>`;
+  }
+}
+
+/* 男子の髪（後ろ・短め共通） */
+function maleHairBack(p) {
+  return `<path d="M 72 152 Q 62 84 150 68 Q 238 84 228 152
+    L 222 206 Q 214 180 200 190 L 100 190 Q 86 180 78 206 Z" fill="${p.hair2}"/>`;
+}
+
+/* 男子の前髪（キャラごとに差別化） */
+function maleHairFront(id, p) {
+  const hi = `<path d="M 150 80 Q 178 86 198 122 Q 178 100 150 100 Z" fill="${p.hairHi}" opacity="0.45"/>`;
+  switch (id) {
+    case "saki": // 陽：元気なツンツン短髪
+      return `
+        <path d="M 70 152 Q 60 84 150 68 Q 240 84 230 152
+          Q 222 120 198 128 L 210 100 L 188 124 L 196 96 L 168 120
+          L 174 90 L 150 118 L 150 88 L 130 118 L 124 92 L 110 122
+          L 96 98 L 86 128 Q 78 122 70 152 Z" fill="${p.hair}"/>${hi}`;
+    case "yukino": // 怜：きっちりした七三・クール
+      return `
+        <path d="M 70 152 Q 60 84 150 68 Q 240 84 230 152
+          Q 220 116 190 126 Q 202 100 150 110
+          Q 150 96 138 110 Q 116 100 106 128 Q 80 118 70 152 Z" fill="${p.hair}"/>
+        <path d="M 138 108 Q 170 100 196 124 Q 168 104 140 112 Z" fill="${p.hairHi}" opacity="0.4"/>`;
+    case "hinata": // ひなた：やわらかい短髪
+      return `
+        <path d="M 70 152 Q 60 86 150 70 Q 240 86 230 152
+          Q 220 124 192 134 Q 200 112 172 122 Q 162 104 150 120
+          Q 138 104 128 122 Q 100 112 108 134 Q 80 124 70 152 Z" fill="${p.hair}"/>
+        <path d="M 86 150 Q 96 130 112 140 L 106 172 Q 92 166 86 150 Z" fill="${p.hairHi}" opacity="0.5"/>`;
+    case "shion": // シオン：クールなサイド流し＋片目にかかる一房
+    default:
+      return `
+        <path d="M 70 152 Q 60 84 150 68 Q 240 84 230 152
+          Q 224 112 196 122 Q 206 106 178 116 Q 190 94 156 110
+          Q 168 92 138 110 Q 150 96 120 116 Q 128 104 104 122
+          Q 80 112 70 152 Z" fill="${p.hair}"/>
+        <path d="M 110 118 Q 100 148 114 178 L 124 174 Q 113 146 122 120 Z" fill="${p.hair}"/>
+        ${hi}`;
   }
 }
 
@@ -306,7 +351,7 @@ function buildPortrait(charId, exp = "normal") {
       </linearGradient>
     </defs>
 
-    ${hairBack(charId, p)}
+    ${hairBack(charId, p, c.male)}
 
     <!-- 首と肩・制服 -->
     ${bodyOutfit(c)}
@@ -325,8 +370,8 @@ function buildPortrait(charId, exp = "normal") {
     <path d="M 150 180 l -3 8 l 5 0 Z" fill="${SKIN_SH}" opacity="0.7"/>
     ${svgMouth(exp)}
 
-    ${hairFront(charId, p)}
-    ${hairAccessory(charId, p)}
+    ${hairFront(charId, p, c.male)}
+    ${c.male ? "" : hairAccessory(charId, p)}
   </svg>`;
 }
 
