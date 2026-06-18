@@ -82,6 +82,12 @@ html, body {
 .bg-park_night        { background: linear-gradient(180deg,#201640 0%,#3e2a5c 55%,#6a4a7a 100%); }
 .bg-bookstore         { background: linear-gradient(180deg,#e0c9a4 0%,#f1e2c4 55%,#c3a274 100%); }
 .bg-bookstore_sunset  { background: linear-gradient(180deg,#df8d62 0%,#edc294 60%,#cb9d6e 100%); }
+.bg-musicroom         { background: linear-gradient(180deg,#cfc6e6 0%,#ece6f5 55%,#b8aece 100%); }
+.bg-musicroom_sunset  { background: linear-gradient(180deg,#e8967f 0%,#e9c0c6 55%,#c6a0be 100%); }
+.bg-musicroom_day     { background: linear-gradient(180deg,#cfe0ff 0%,#f0eaf8 55%,#c8bcd8 100%); }
+.bg-courtyard_sunset  { background: linear-gradient(180deg,#ff9a6a 0%,#ffd0a0 45%,#ffe6c0 70%,#bfe0a0 100%); }
+.bg-auditorium_night  { background: radial-gradient(60% 52% at 50% 34%, rgba(255,240,200,.55), transparent 62%), linear-gradient(180deg,#0e0a1c 0%,#241a38 60%,#3a2a50 100%); }
+.bg-auditorium_day    { background: linear-gradient(180deg,#d8d0e8 0%,#efeaf6 55%,#c8c0d8 100%); }
 
 /* 床／地面の陰影をうっすら足す */
 .bg::before {

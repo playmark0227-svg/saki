@@ -10,7 +10,9 @@
   "use strict";
 
   const SAVE_KEY = "sakura7_save_v1";
-  const TRUE_THRESHOLD = 16; // トゥルーエンド到達に必要な好感度
+  // トゥルーエンド到達に必要な好感度（ルートごとに到達可能域が違うため個別設定）。
+  // この値「未満」で受け入れ＝グッド、以上＝トゥルー、告白拒否＝ノーマル。
+  const TRUE_THRESHOLD = { saki: 17, yukino: 19, hinata: 18, shion: 17 };
 
   /* ---------------- ゲーム状態 ---------------- */
   const defaultState = () => ({
@@ -18,7 +20,7 @@
     day: 0,
     scene: STORY_START,
     page: 0,
-    aff: { saki: 0, yukino: 0, hinata: 0 },
+    aff: { saki: 0, yukino: 0, hinata: 0, shion: 0 },
     flags: {},
     route: null,
   });
@@ -176,7 +178,7 @@
   /* 好感度バー */
   function renderAffection() {
     const max = 24;
-    els["affection-bar"].innerHTML = ["saki", "yukino", "hinata"].map((id) => {
+    els["affection-bar"].innerHTML = ["saki", "yukino", "hinata", "shion"].map((id) => {
       const c = CHARACTERS[id];
       const v = Math.max(0, Math.min(max, state.aff[id]));
       const pct = (v / max) * 100;
@@ -307,7 +309,7 @@
 
   /* ルート分岐：最も好感度の高いヒロインへ */
   function resolveRoute() {
-    const order = ["saki", "yukino", "hinata"];
+    const order = ["saki", "yukino", "hinata", "shion"];
     let best = order[0];
     order.forEach((id) => { if (state.aff[id] > state.aff[best]) best = id; });
     state.route = best;
@@ -317,9 +319,10 @@
   /* エンディング判定 */
   function resolveEnding(char) {
     const aff = state.aff[char];
+    const thr = TRUE_THRESHOLD[char] != null ? TRUE_THRESHOLD[char] : 16;
     let key;
     if (state.flags[char + "_reject"]) key = char + "_bad";
-    else if (aff >= TRUE_THRESHOLD) key = char + "_true";
+    else if (aff >= thr) key = char + "_true";
     else key = char + "_good";
     gotoScene(key);
   }

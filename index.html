@@ -33,8 +33,9 @@
           <h3>🌸 ものがたり</h3>
           <p>
             春。坂の上の「星河学園」へ転校してきたあなたは、満開の桜の下で
-            三人の少女と出会う。元気いっぱいの幼なじみ・<b>咲</b>、孤高の才媛・<b>雪乃</b>、
-            やわらかな光のような・<b>ひなた</b>。それぞれが、笑顔の裏に秘密を抱えていた――。
+            三人の少女と、一人の先輩に出会う。元気いっぱいの幼なじみ・<b>咲</b>、孤高の才媛・<b>雪乃</b>、
+            やわらかな光のような・<b>ひなた</b>、そして孤高のピアニスト・<b>シオン</b>。
+            それぞれが、笑顔や仮面の裏に、秘密を抱えていた――。
             文化祭までの<b>七日間</b>。選んだ言葉と過ごす時間が、ふたりの距離を変えていく。
             <br><br>
             <b>遊び方：</b>画面をクリック（またはスペース／Enter）でセリフ送り。選択肢で好感度が変化し、
@@ -106,7 +107,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       var box = document.getElementById("about-chars");
       if (box) {
-        box.innerHTML = ["saki", "yukino", "hinata"].map(function (id) {
+        box.innerHTML = ["saki", "yukino", "hinata", "shion"].map(function (id) {
           var c = CHARACTERS[id];
           return '<div class="mini">' + buildPortrait(id, "smile") +
             '<b style="color:' + c.color + '">' + c.name + '</b>' +

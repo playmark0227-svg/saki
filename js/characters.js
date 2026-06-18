@@ -46,6 +46,20 @@ const CHARACTERS = {
       ribbon: "#81c784", uniform: "#3a4a63", collar: "#f3fff7",
     },
   },
+  shion: {
+    id: "shion",
+    name: "月城 シオン",
+    short: "シオン",
+    color: "#8e6fd6",          // テーマカラー（バイオレット）
+    color2: "#cdbdf2",
+    title: "孤高の旋律",
+    male: true,
+    palette: {
+      hair: "#b3a3c9", hair2: "#8a7aa6", hairHi: "#ddd1ee",
+      eye: "#7b5fb0", brow: "#7a6a96",
+      ribbon: "#8e6fd6", uniform: "#26283c", collar: "#eef0ff",
+    },
+  },
 };
 
 const SKIN = "#ffe0cb";
@@ -181,6 +195,10 @@ function hairBack(id, p) {
                 Q 214 230 206 192 L 94 192 Q 86 230 78 280 Q 76 300 68 320
                 Q 50 280 62 250 Q 48 200 62 150 Z"
                 fill="${p.hair2}"/>`;
+    case "shion": // 男子・ショート（後ろ髪は短め）
+      return `<path d="M 72 152 Q 62 84 150 68 Q 238 84 228 152
+                L 222 206 Q 214 180 200 190 L 100 190 Q 86 180 78 206 Z"
+                fill="${p.hair2}"/>`;
   }
 }
 
@@ -208,6 +226,14 @@ function hairFront(id, p) {
           Q 138 100 126 120 Q 100 112 108 134 Q 80 122 68 150 Z" fill="${p.hair}"/>
         <path d="M 150 120 Q 156 108 150 100 Q 144 108 150 120 Z" fill="${p.hair}"/>
         <path d="M 86 150 Q 96 130 112 140 L 106 172 Q 92 166 86 150 Z" fill="${p.hairHi}" opacity="0.5"/>`;
+    case "shion": // 男子・サイドに流したクールな前髪＋片目にかかる一房
+      return `
+        <path d="M 70 152 Q 60 84 150 68 Q 240 84 230 152
+          Q 224 112 196 122 Q 206 106 178 116 Q 190 94 156 110
+          Q 168 92 138 110 Q 150 96 120 116 Q 128 104 104 122
+          Q 80 112 70 152 Z" fill="${p.hair}"/>
+        <path d="M 110 118 Q 100 148 114 178 L 124 174 Q 113 146 122 120 Z" fill="${p.hair}"/>
+        <path d="M 150 80 Q 178 86 198 122 Q 178 100 150 100 Z" fill="${p.hairHi}" opacity="0.5"/>`;
   }
 }
 
@@ -236,6 +262,30 @@ function hairAccessory(id, p) {
   return "";
 }
 
+/* ---------- 制服（上半身） ---------- */
+function bodyOutfit(c) {
+  const p = c.palette;
+  const base =
+    `<rect x="134" y="218" width="32" height="26" fill="${SKIN_SH}"/>
+     <path d="M 86 340 Q 96 270 150 262 Q 204 270 214 340 Z" fill="url(#uni_${c.id})"/>`;
+  if (c.male) {
+    // 詰襟（学ラン）＋金ボタン
+    return base + `
+      <path d="M 116 258 Q 150 248 184 258 L 182 280 Q 150 270 118 280 Z" fill="${shade(p.uniform, 10)}"/>
+      <path d="M 118 263 Q 150 255 182 263" fill="none" stroke="${p.ribbon}" stroke-width="2.5" opacity="0.85"/>
+      <line x1="150" y1="272" x2="150" y2="340" stroke="${shade(p.uniform, -16)}" stroke-width="3"/>
+      <circle cx="150" cy="292" r="4" fill="#ffcf66" stroke="#caa23a" stroke-width="1"/>
+      <circle cx="150" cy="313" r="4" fill="#ffcf66" stroke="#caa23a" stroke-width="1"/>
+      <circle cx="150" cy="334" r="4" fill="#ffcf66" stroke="#caa23a" stroke-width="1"/>`;
+  }
+  // セーラー服＋リボンタイ
+  return base + `
+    <path d="M 120 268 L 150 300 L 180 268 L 196 280 L 168 330 L 132 330 L 104 280 Z" fill="${p.collar}"/>
+    <path d="M 120 268 L 150 300 L 180 268 L 174 264 L 150 286 L 126 264 Z" fill="${shade(p.collar, -12)}"/>
+    <path d="M 150 296 l -16 8 l 6 14 l 10 -8 l 10 8 l 6 -14 Z" fill="${p.ribbon}"/>
+    <circle cx="150" cy="300" r="5" fill="${shade(p.ribbon, -18)}"/>`;
+}
+
 /* ---------- 立ち絵全体 ---------- */
 
 function buildPortrait(charId, exp = "normal") {
@@ -254,14 +304,7 @@ function buildPortrait(charId, exp = "normal") {
     ${hairBack(charId, p)}
 
     <!-- 首と肩・制服 -->
-    <rect x="134" y="218" width="32" height="26" fill="${SKIN_SH}"/>
-    <path d="M 86 340 Q 96 270 150 262 Q 204 270 214 340 Z" fill="url(#uni_${charId})"/>
-    <!-- セーラー襟 -->
-    <path d="M 120 268 L 150 300 L 180 268 L 196 280 L 168 330 L 132 330 L 104 280 Z" fill="${p.collar}"/>
-    <path d="M 120 268 L 150 300 L 180 268 L 174 264 L 150 286 L 126 264 Z" fill="${shade(p.collar,-12)}"/>
-    <!-- リボンタイ -->
-    <path d="M 150 296 l -16 8 l 6 14 l 10 -8 l 10 8 l 6 -14 Z" fill="${p.ribbon}"/>
-    <circle cx="150" cy="300" r="5" fill="${shade(p.ribbon,-18)}"/>
+    ${bodyOutfit(c)}
 
     <!-- 顔 -->
     <ellipse cx="150" cy="160" rx="76" ry="84" fill="${SKIN}"/>
