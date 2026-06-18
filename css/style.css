@@ -97,6 +97,9 @@ html, body {
 .bg-courtyard_sunset  { background: linear-gradient(180deg,#ff9a6a 0%,#ffd0a0 45%,#ffe6c0 70%,#bfe0a0 100%); }
 .bg-auditorium_night  { background: radial-gradient(60% 52% at 50% 34%, rgba(255,240,200,.55), transparent 62%), linear-gradient(180deg,#0e0a1c 0%,#241a38 60%,#3a2a50 100%); }
 .bg-auditorium_day    { background: linear-gradient(180deg,#d8d0e8 0%,#efeaf6 55%,#c8c0d8 100%); }
+.bg-town_day          { background: linear-gradient(180deg,#bfe3ff 0%,#eaf4ff 45%,#ead9c2 100%); }
+.bg-cafe_day          { background: linear-gradient(180deg,#e6d3ba 0%,#f4e8d6 55%,#cbab86 100%); }
+.bg-infirmary         { background: linear-gradient(180deg,#e6f1ee 0%,#f7fbfa 55%,#d6e6df 100%); }
 
 /* 床／地面の陰影をうっすら足す */
 .bg::before {

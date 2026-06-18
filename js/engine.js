@@ -12,7 +12,7 @@
   const SAVE_KEY = "sakura7_save_v1";
   // トゥルーエンド到達に必要な好感度（ルートごとに到達可能域が違うため個別設定）。
   // この値「未満」で受け入れ＝グッド、以上＝トゥルー、告白拒否＝ノーマル。
-  const TRUE_THRESHOLD = { saki: 17, yukino: 19, hinata: 18, shion: 17 };
+  const TRUE_THRESHOLD = { saki: 21, yukino: 25, hinata: 23, shion: 23 };
 
   /* ---------------- ゲーム状態 ---------------- */
   const defaultState = () => ({

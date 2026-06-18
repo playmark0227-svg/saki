@@ -696,6 +696,52 @@ const STORY = {
       "「……うんっ! ありがと、{name}!」",
       "彼のシュートが、きれいな弧を描いてネットを揺らした。",
       "その横顔は、痛みより、希望でいっぱいに輝いていた。",
+    ], next: "saki_mid_1",
+  },
+
+  /* --- 五日目 追加イベント：つないだ手と、消えない不安 --- */
+  saki_mid_1: {
+    bg: "town_day", who: "saki", exp: "smile", text: [
+      "放課後、文化祭の買い出しに、はると街へ出かけた。",
+      "人混みではぐれかけた瞬間、はるがぱっとわたしの手を取った。",
+      "「……っと。迷子になるなよ?」 そう言って笑う彼の手は、思ったよりずっと大きい。",
+      "つないだ手の体温に、心臓がうるさいくらい鳴る。",
+    ],
+    choices: [
+      { label: "「……このまま、つないでていい?」", eff: { saki: 3 }, flag: { saki_date: true }, next: "saki_mid_2a" },
+      { label: "慌てて手を離してしまう", eff: { saki: 1 }, next: "saki_mid_2b" },
+    ],
+  },
+  saki_mid_2a: {
+    bg: "town_day", who: "saki", exp: "blush", text: [
+      "「……つ、繋いでていいって……」 はるの耳が、みるみる赤くなる。",
+      "「ずるいなあ、{name}は。昔っから、俺の心臓に悪いんだ。」",
+      "結局、家に着くまで、つないだ手はほどけなかった。",
+    ], next: "saki_mid_3",
+  },
+  saki_mid_2b: {
+    bg: "town_day", who: "saki", exp: "smile", text: [
+      "「あはは、照れんなって。……でも、ちょっとだけ、残念。」",
+      "はるはおどけてみせたけど、その横顔は、少しだけ寂しそうだった。",
+    ], next: "saki_mid_3",
+  },
+  saki_mid_3: {
+    bg: "park_sunset", who: "saki", exp: "normal", text: [
+      "帰り道、あの公園を通った。茜色の光が、古いブランコを長く照らしている。",
+      "「なあ、{name}。」 はるが、ふいに足を止めた。",
+      "「俺さ……正直、まだちょっとこわいんだ。また、当たり前みたいに、君がいなくなったら……って。」",
+      "幼い日に置いていかれた記憶が、彼の中に、まだ棘のように残っている。",
+    ],
+    choices: [
+      { label: "「もう、どこにも行かない。ずっとそばにいるよ」", eff: { saki: 3 }, flag: { saki_promise2: true }, next: "saki_mid_4" },
+      { label: "はるの手を、ぎゅっと握り返す", eff: { saki: 3 }, flag: { saki_promise2: true }, next: "saki_mid_4" },
+    ],
+  },
+  saki_mid_4: {
+    bg: "park_sunset", who: "saki", exp: "happy", text: [
+      "はるは、泣き笑いみたいな顔で、わたしの頭をくしゃっと撫でた。",
+      "「……うん。信じる。今度こそ、ずっと、だからな。」",
+      "夕陽の中、二人の影が、ぴったり寄り添って伸びていた。",
     ], next: "saki_6_title",
   },
 
@@ -859,6 +905,40 @@ const STORY = {
       "完全な勝利じゃない。けれど、怜は確かに、自分の足で立っていた。",
       "「……言えた。{name}、僕、言えた。」",
       "振り向いた彼の頬を、涙が一筋、伝っていた。",
+    ], next: "yukino_mid_1",
+  },
+
+  /* --- 五日目 追加イベント：物語のモデルと、最後通牒 --- */
+  yukino_mid_1: {
+    bg: "cafe_day", who: "yukino", exp: "shy", text: [
+      "放課後、怜に誘われて、静かな喫茶店に入った。彼の“もう一つの秘密基地”らしい。",
+      "ノートを広げた怜が、めずらしく、少し照れたように切り出した。",
+      "「新作の主人公のことなんだが。……モデルが、いる。」",
+      "「明るくて、まっすぐで、僕の凍った世界に色をつけた人物だ。……誰のことか、言わせるな。」",
+    ],
+    choices: [
+      { label: "「それって……わたしのこと?」と聞く", eff: { yukino: 3 }, flag: { yukino_date: true }, next: "yukino_mid_2" },
+      { label: "嬉しくて、顔がほころんでしまう", eff: { yukino: 3 }, flag: { yukino_date: true }, next: "yukino_mid_2" },
+    ],
+  },
+  yukino_mid_2: {
+    bg: "library_night", who: "yukino", exp: "sad", text: [
+      "だが数日後。怜の様子が、目に見えておかしくなった。",
+      "父から、最後通牒が届いたのだという。「文学の道を選ぶなら、一切の援助はしない」と。",
+      "「……僕の我儘で、家を捨てるのか。それとも、夢を殺すのか。」",
+      "完璧だったはずの彼が、初めて、途方に暮れた子どものような顔をしていた。",
+    ],
+    choices: [
+      { label: "「夢も家族も、諦めなくていい。一緒に道を探そう」", eff: { yukino: 3 }, flag: { yukino_support: true }, next: "yukino_mid_3" },
+      { label: "「どっちを選んでも、わたしは怜の味方だよ」", eff: { yukino: 3 }, flag: { yukino_support: true }, next: "yukino_mid_3" },
+    ],
+  },
+  yukino_mid_3: {
+    bg: "library_sunset", who: "yukino", exp: "normal", text: [
+      "わたしの言葉に、怜はしばらく黙り込み、それから、ふっと肩の力を抜いた。",
+      "「……君といると、不思議だ。絶望さえ、次の物語の一行に変えられる気がする。」",
+      "「ありがとう。もう少しだけ、足掻いてみる。僕の言葉で、もう一度父を説得するよ。」",
+      "夕陽に照らされた横顔は、もう迷っていなかった。",
     ], next: "yukino_6_title",
   },
 
@@ -989,6 +1069,46 @@ const STORY = {
     bg: "artroom_sunset", who: "hinata", exp: "happy", text: [
       "「……えへへ。{name}さんが見ててくれると、筆が、軽いの。」",
       "夕陽が、彼と、生まれかけの絵を、やさしく照らしていた。",
+    ], next: "hinata_mid_1",
+  },
+
+  /* --- 五日目 追加イベント：わたしの絵と、倒れた君 --- */
+  hinata_mid_1: {
+    bg: "riverside_sunset", who: "hinata", exp: "smile", text: [
+      "放課後、ひなたと川沿いを歩いた。彼は今日も、小さなスケッチブックを抱えている。",
+      "「ね、{name}さん。少しだけ、動かないで。」",
+      "さらさらと鉛筆が走る。やがて見せてくれたのは――やわらかく笑う、わたしの絵だった。",
+      "「世界で一番、描きたかった顔。……やっと、描けた。」",
+    ],
+    choices: [
+      { label: "「わたしも、ひなたを描いてほしいな。ずっと」", eff: { hinata: 3 }, flag: { hinata_date: true }, next: "hinata_mid_2" },
+      { label: "照れて「上手すぎるよ」と笑う", eff: { hinata: 2 }, next: "hinata_mid_2" },
+    ],
+  },
+  hinata_mid_2: {
+    bg: "infirmary", who: "", text: [
+      "その翌日だった。美術室で、ひなたが筆を取り落とし、ふらりと床に崩れ落ちた。",
+      "「ひなた!? ひなた、しっかり……!」 血の気の引いた顔。氷みたいに冷たい指先。",
+      "運ばれた保健室で、彼は薄く目を開けて、申し訳なさそうに笑った。",
+      "「ごめんね。……昔の病気が、たまに、いたずらするんだ。」",
+    ], next: "hinata_mid_3",
+  },
+  hinata_mid_3: {
+    bg: "infirmary", who: "hinata", exp: "sad", text: [
+      "「こういう体だからさ……ずっと、完成の“その先”を見るのが、こわかった。」",
+      "「でも今は、ちがう。{name}さんと見たい“その先”が、たくさん、あるんだ。」",
+      "震える手を、わたしはそっと両手で包んだ。彼の手に、少しずつ熱が戻っていく。",
+    ],
+    choices: [
+      { label: "「一緒に見よう。何枚でも、何年でも」", eff: { hinata: 3 }, flag: { hinata_support: true }, next: "hinata_mid_4" },
+      { label: "「無理しないで。わたしがずっとそばにいるから」", eff: { hinata: 3 }, flag: { hinata_support: true }, next: "hinata_mid_4" },
+    ],
+  },
+  hinata_mid_4: {
+    bg: "artroom_sunset", who: "hinata", exp: "happy", text: [
+      "数日後、すっかり元気になったひなたは、また絵筆を握っていた。",
+      "「決めた。あの絵、絶対に完成させる。逃げないで、“今”を、全部。」",
+      "その瞳には、もう、怯えの色はなかった。",
     ], next: "hinata_6_title",
   },
 
@@ -1120,6 +1240,40 @@ const STORY = {
     bg: "musicroom_sunset", who: "shion", exp: "smile", text: [
       "「……ふっ。お前は、いつもまっすぐだな。」",
       "鍵盤を撫でる彼の指は、もう、震えていなかった。",
+    ], next: "shion_mid_1",
+  },
+
+  /* --- 五日目 追加イベント：重ねた指と、震える手 --- */
+  shion_mid_1: {
+    bg: "musicroom_sunset", who: "shion", exp: "normal", text: [
+      "放課後の音楽室。シオンが、ピアノの椅子を半分空けて、わたしを手招きした。",
+      "「隣に座れ。……一音だけ、教えてやる。」",
+      "重ねた手の上から、彼の長い指がそっと導く。鳴ったのは、たった一つの、澄んだ音。",
+      "耳元で聞こえる低い声に、心臓が痛いくらい高鳴った。",
+    ],
+    choices: [
+      { label: "「先輩の隣……すごく、落ち着きます」", eff: { shion: 3 }, flag: { shion_date: true }, next: "shion_mid_2" },
+      { label: "ドキドキを隠して、もう一音ねだる", eff: { shion: 3 }, flag: { shion_date: true }, next: "shion_mid_2" },
+    ],
+  },
+  shion_mid_2: {
+    bg: "auditorium_night", who: "shion", exp: "sad", text: [
+      "けれど、後夜祭のステージが近づくほど、シオンの指は強張っていった。",
+      "誰もいないホールで、彼は鍵盤の前に座ったまま、動けずにいた。",
+      "「……だめだ。大舞台に立つと、姉さんの最後の顔が、また浮かぶ。」",
+      "「俺はやっぱり、あの日から、一歩も進めていないのかもしれない。」",
+    ],
+    choices: [
+      { label: "「一人で背負わないで。わたしが客席にいるから」", eff: { shion: 3 }, flag: { shion_support: true }, next: "shion_mid_3" },
+      { label: "そっと隣に座り、彼の手に手を重ねる", eff: { shion: 3 }, flag: { shion_support: true }, next: "shion_mid_3" },
+    ],
+  },
+  shion_mid_3: {
+    bg: "musicroom_sunset", who: "shion", exp: "shy", text: [
+      "わたしの体温が移るまで、シオンは黙って、手を預けていた。",
+      "「……不思議だな。お前がいると、こわさより、聴かせたい気持ちが勝つ。」",
+      "やがて、彼の指がひとりでに動き出す。途切れない旋律が、夕暮れのホールに満ちた。",
+      "「決めた。本番、姉さんと――お前に、最高の演奏を捧げる。」",
     ], next: "shion_6_title",
   },
 
