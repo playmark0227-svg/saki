@@ -247,7 +247,7 @@ const STORY = {
     ],
     choices: [
       { label: "「もちろん。行こう」", eff: { saki: 2 }, next: "d1_2a" },
-      { label: "「随分なつかれたな」とからかう", eff: { saki: 1 }, next: "d1_2b" },
+      { label: "「随分なつかれたね」とからかう", eff: { saki: 1 }, next: "d1_2b" },
     ],
   },
   d1_2a: {
@@ -270,7 +270,7 @@ const STORY = {
     ],
     choices: [
       { label: "「正直、あんまり覚えてないんだ」", eff: { saki: 0 }, next: "d1_4" },
-      { label: "「君、何か知ってるの？」と聞き返す", eff: { saki: 1 }, flag: { saki_hint: true }, next: "d1_4b" },
+      { label: "「ねえ、何か知ってるの？」と聞き返す", eff: { saki: 1 }, flag: { saki_hint: true }, next: "d1_4b" },
     ],
   },
   d1_4: {
@@ -296,7 +296,7 @@ const STORY = {
     ],
     choices: [
       { label: "「ありがとう、助かるよ」と笑顔で受け取る", eff: { yukino: 2 }, next: "d1_6a" },
-      { label: "「会長にこんなことさせて悪いな」", eff: { yukino: 1 }, next: "d1_6b" },
+      { label: "「会長にこんなことさせちゃってごめんね」", eff: { yukino: 1 }, next: "d1_6b" },
     ],
   },
   d1_6a: {
@@ -397,8 +397,8 @@ const STORY = {
       "「あっ、{name}! み、見てた? あはは、サボりじゃないよ、自主練!」",
     ],
     choices: [
-      { label: "「肩、痛むのか？無理するな」", eff: { saki: 2 }, flag: { saki_injury: true }, next: "d2_3a" },
-      { label: "「すごい練習量だな」と感心する", eff: { saki: 1 }, next: "d2_3b" },
+      { label: "「肩、痛むの？無理しないで」", eff: { saki: 2 }, flag: { saki_injury: true }, next: "d2_3a" },
+      { label: "「すごい練習量だね」と感心する", eff: { saki: 1 }, next: "d2_3b" },
     ],
   },
   d2_3a: {
@@ -475,7 +475,7 @@ const STORY = {
     ],
     choices: [
       { label: "「消えても、見てた人の中に残るよ」", eff: { hinata: 2 }, flag: { hinata_bond: true }, next: "d2_11a" },
-      { label: "「だから今、一緒に見てるんじゃないか」", eff: { hinata: 2 }, flag: { hinata_bond: true }, next: "d2_11b" },
+      { label: "「だから今、一緒に見てるんじゃない？」", eff: { hinata: 2 }, flag: { hinata_bond: true }, next: "d2_11b" },
     ],
   },
   d2_11a: {
@@ -688,7 +688,7 @@ const STORY = {
     ],
     choices: [
       { label: "「最前列で、君だけを見てる」", eff: { saki: 3 }, next: "saki_5_2" },
-      { label: "「無理だけはするな。君が一番大事だ」", eff: { saki: 2 }, flag: { saki_care: true }, next: "saki_5_2" },
+      { label: "「無理だけはしないで。あなたが一番大事だから」", eff: { saki: 2 }, flag: { saki_care: true }, next: "saki_5_2" },
     ],
   },
   saki_5_2: {
@@ -722,7 +722,7 @@ const STORY = {
       "「俺、{name}のことが、ずっと――子どもの頃から、ずっと好きでした。」",
     ],
     choices: [
-      { label: "「わたしも好きだ。今度こそ、ずっと一緒にいよう」", eff: { saki: 3 }, next: "saki_end_branch" },
+      { label: "「わたしも好き。今度こそ、ずっと一緒にいようね」", eff: { saki: 3 }, next: "saki_end_branch" },
       { label: "「ありがとう。でも、まだ友達のままで」", eff: { saki: -2 }, flag: { saki_reject: true }, next: "saki_end_branch" },
     ],
   },
@@ -809,8 +809,8 @@ const STORY = {
       "（彼の物語は、こんな所で終わっていいものじゃない。）",
     ],
     choices: [
-      { label: "「自分の人生だ。本当の望みを、お父さんに言うべきだ」", eff: { yukino: 4 }, flag: { yukino_trust: true }, next: "yukino_4_6a" },
-      { label: "「君が決めることだ。でも、わたしは君の味方でいる」", eff: { yukino: 3 }, flag: { yukino_trust: true }, next: "yukino_4_6b" },
+      { label: "「自分の人生だよ。本当の望み、お父さんに言うべきだよ」", eff: { yukino: 4 }, flag: { yukino_trust: true }, next: "yukino_4_6a" },
+      { label: "「君が決めることだよ。でも、わたしは君の味方でいるから」", eff: { yukino: 3 }, flag: { yukino_trust: true }, next: "yukino_4_6b" },
     ],
   },
   yukino_4_6a: {
@@ -833,7 +833,7 @@ const STORY = {
       "「君は、僕の隣に……いてくれるか?」",
     ],
     choices: [
-      { label: "「当たり前だ。どんな君でも、隣にいる」", eff: { yukino: 3 }, next: "yukino_5_title" },
+      { label: "「当たり前だよ。どんな君でも、隣にいるから」", eff: { yukino: 3 }, next: "yukino_5_title" },
       { label: "そっと手を重ねて頷く", eff: { yukino: 3 }, flag: { yukino_care: true }, next: "yukino_5_title" },
     ],
   },
@@ -879,8 +879,8 @@ const STORY = {
       "「{name}。君を、愛してる。僕の物語の、主人公は君だけだ。」",
     ],
     choices: [
-      { label: "「わたしも愛してる。君の物語を、隣で読ませてくれ」", eff: { yukino: 3 }, next: "yukino_end_branch" },
-      { label: "「光栄だ。でも、その気持ちには応えられない」", eff: { yukino: -2 }, flag: { yukino_reject: true }, next: "yukino_end_branch" },
+      { label: "「わたしも愛してる。君の物語、隣で読ませて」", eff: { yukino: 3 }, next: "yukino_end_branch" },
+      { label: "「うれしい。でも、その気持ちには応えられない」", eff: { yukino: -2 }, flag: { yukino_reject: true }, next: "yukino_end_branch" },
     ],
   },
   yukino_end_branch: { branch: "ending:yukino" },
@@ -982,7 +982,7 @@ const STORY = {
     ],
     choices: [
       { label: "「そばで、見ててもいい?」", eff: { hinata: 3 }, next: "hinata_5_2" },
-      { label: "「君が描く姿、すごくきれいだ」", eff: { hinata: 3 }, flag: { hinata_care: true }, next: "hinata_5_2" },
+      { label: "「君が描く姿、すごくきれい」", eff: { hinata: 3 }, flag: { hinata_care: true }, next: "hinata_5_2" },
     ],
   },
   hinata_5_2: {
@@ -1009,7 +1009,7 @@ const STORY = {
       "「{name}くん。僕ね、きみといる“今”が、大好き。……きみが、好き。」",
     ],
     choices: [
-      { label: "「わたしも好きだ。これからの“今”を、全部一緒に」", eff: { hinata: 3 }, next: "hinata_end_branch" },
+      { label: "「わたしも好き。これからの“今”を、全部一緒に」", eff: { hinata: 3 }, next: "hinata_end_branch" },
       { label: "「ありがとう。でも、応えることはできない」", eff: { hinata: -2 }, flag: { hinata_reject: true }, next: "hinata_end_branch" },
     ],
   },
@@ -1113,7 +1113,7 @@ const STORY = {
     ],
     choices: [
       { label: "「楽しみにしてる。君の音を、最前列で」", eff: { shion: 3 }, next: "shion_5_2" },
-      { label: "「無理はするな。でも、君なら弾ける」", eff: { shion: 2 }, flag: { shion_care: true }, next: "shion_5_2" },
+      { label: "「無理はしないで。でも、君なら弾けるよ」", eff: { shion: 2 }, flag: { shion_care: true }, next: "shion_5_2" },
     ],
   },
   shion_5_2: {
@@ -1141,8 +1141,8 @@ const STORY = {
       "「{name}。お前が、俺の凍った指を、心を、溶かした。……好きだ。俺の隣で、この音を聴き続けてくれ。」",
     ],
     choices: [
-      { label: "「わたしも好きだ。君の音を、ずっと隣で聴かせて」", eff: { shion: 3 }, next: "shion_end_branch" },
-      { label: "「光栄だよ。でも、その気持ちには応えられない」", eff: { shion: -2 }, flag: { shion_reject: true }, next: "shion_end_branch" },
+      { label: "「わたしも好き。君の音を、ずっと隣で聴かせて」", eff: { shion: 3 }, next: "shion_end_branch" },
+      { label: "「うれしい。でも、その気持ちには応えられない」", eff: { shion: -2 }, flag: { shion_reject: true }, next: "shion_end_branch" },
     ],
   },
   shion_end_branch: { branch: "ending:shion" },
