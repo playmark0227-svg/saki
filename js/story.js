@@ -667,8 +667,8 @@ const STORY = {
       "（“ぜったい忘れない”って。なのに、わたしは――）",
     ],
     choices: [
-      { label: "「ごめん。でも、もう絶対に忘れない」と抱きしめる", eff: { saki: 4 }, flag: { saki_trust: true }, next: "saki_4_8" },
-      { label: "「置いていったりしない。今度はわたしがそばにいる」", eff: { saki: 3 }, flag: { saki_trust: true }, next: "saki_4_8" },
+      { label: "「ごめん。でも、もう絶対に忘れない」と抱きしめる", eff: { saki: 4 }, flag: { saki_b1: true }, next: "saki_4_8" },
+      { label: "「置いていったりしない。今度はわたしがそばにいる」", eff: { saki: 3 }, next: "saki_4_8" },
     ],
   },
   saki_4_8: {
@@ -734,7 +734,7 @@ const STORY = {
     ],
     choices: [
       { label: "「もう、どこにも行かない。ずっとそばにいるよ」", eff: { saki: 3 }, flag: { saki_promise2: true }, next: "saki_mid_4" },
-      { label: "はるの手を、ぎゅっと握り返す", eff: { saki: 3 }, flag: { saki_promise2: true }, next: "saki_mid_4" },
+      { label: "はるの手を、ぎゅっと握り返す", eff: { saki: 3 }, next: "saki_mid_4" },
     ],
   },
   saki_mid_4: {
@@ -757,7 +757,18 @@ const STORY = {
     bg: "riverside_night", who: "player", text: [
       "（明日。きっと、はるは――。）",
       "（わたしの答えは、もう、決まっている。）",
-    ], next: "saki_climax",
+    ], next: "saki_night",
+  },
+  saki_night: {
+    bg: "riverside_night", who: "player", text: [
+      "（文化祭、前夜。眠れないまま、明日のことを思う。）",
+      "（はるの気持ちも、わたしの答えも、もう決まってる。あとは、どんな自分で踏み出すか。）",
+    ],
+    choices: [
+      { label: "わくわくしながら、その時を待つ", flag: { saki_b4: 0 }, next: "saki_climax" },
+      { label: "少し不安。でも、ちゃんと向き合う", flag: { saki_b4: 1 }, next: "saki_climax" },
+      { label: "覚悟を決める。わたしから動こう", flag: { saki_b4: 2 }, next: "saki_climax" },
+    ],
   },
   saki_climax: {
     bg: "festival_night", who: "saki", exp: "blush", text: [
@@ -855,8 +866,8 @@ const STORY = {
       "（彼の物語は、こんな所で終わっていいものじゃない。）",
     ],
     choices: [
-      { label: "「自分の人生だよ。本当の望み、お父さんに言うべきだよ」", eff: { yukino: 4 }, flag: { yukino_trust: true }, next: "yukino_4_6a" },
-      { label: "「君が決めることだよ。でも、わたしは君の味方でいるから」", eff: { yukino: 3 }, flag: { yukino_trust: true }, next: "yukino_4_6b" },
+      { label: "「自分の人生だよ。本当の望み、お父さんに言うべきだよ」", eff: { yukino: 4 }, flag: { yukino_b1: true }, next: "yukino_4_6a" },
+      { label: "「君が決めることだよ。でも、わたしは君の味方でいるから」", eff: { yukino: 3 }, next: "yukino_4_6b" },
     ],
   },
   yukino_4_6a: {
@@ -918,7 +929,7 @@ const STORY = {
     ],
     choices: [
       { label: "「それって……わたしのこと?」と聞く", eff: { yukino: 3 }, flag: { yukino_date: true }, next: "yukino_mid_2" },
-      { label: "嬉しくて、顔がほころんでしまう", eff: { yukino: 3 }, flag: { yukino_date: true }, next: "yukino_mid_2" },
+      { label: "嬉しくて、顔がほころんでしまう", eff: { yukino: 3 }, next: "yukino_mid_2" },
     ],
   },
   yukino_mid_2: {
@@ -930,7 +941,7 @@ const STORY = {
     ],
     choices: [
       { label: "「夢も家族も、諦めなくていい。一緒に道を探そう」", eff: { yukino: 3 }, flag: { yukino_support: true }, next: "yukino_mid_3" },
-      { label: "「どっちを選んでも、わたしは怜の味方だよ」", eff: { yukino: 3 }, flag: { yukino_support: true }, next: "yukino_mid_3" },
+      { label: "「どっちを選んでも、わたしは怜の味方だよ」", eff: { yukino: 3 }, next: "yukino_mid_3" },
     ],
   },
   yukino_mid_3: {
@@ -948,7 +959,18 @@ const STORY = {
       "文化祭前夜。怜は、一冊のノートをわたしに手渡した。新作の物語。",
       "「文化祭で、文芸部として展示するんだ。……人生で初めての、発表。」",
       "「最後のページだけ、まだ空白なんだ。明日、君に、読んでほしくて。」",
-    ], next: "yukino_climax",
+    ], next: "yukino_night",
+  },
+  yukino_night: {
+    bg: "library_night", who: "player", text: [
+      "（文化祭、前夜。怜の物語の、最後のページ。明日、わたしはそれを受け取る。）",
+      "（どんな気持ちで、その言葉を聞きに行こう。）",
+    ],
+    choices: [
+      { label: "期待を胸に、明日を待つ", flag: { yukino_b4: 0 }, next: "yukino_climax" },
+      { label: "少し緊張しながら、心を決める", flag: { yukino_b4: 1 }, next: "yukino_climax" },
+      { label: "覚悟を決めて、まっすぐ向き合う", flag: { yukino_b4: 2 }, next: "yukino_climax" },
+    ],
   },
   yukino_climax: {
     bg: "festival_night", who: "yukino", exp: "blush", text: [
@@ -1027,8 +1049,8 @@ const STORY = {
       "（彼はずっと、“消えてしまうもの”の影に、おびえていたんだ。）",
     ],
     choices: [
-      { label: "「完成は終わりじゃない。新しい始まりだよ」", eff: { hinata: 4 }, flag: { hinata_trust: true }, next: "hinata_4_5a" },
-      { label: "「その空白、わたしと一緒に埋めよう」", eff: { hinata: 4 }, flag: { hinata_trust: true }, next: "hinata_4_5b" },
+      { label: "「完成は終わりじゃない。新しい始まりだよ」", eff: { hinata: 4 }, flag: { hinata_b1: true }, next: "hinata_4_5a" },
+      { label: "「その空白、わたしと一緒に埋めよう」", eff: { hinata: 4 }, next: "hinata_4_5b" },
     ],
   },
   hinata_4_5a: {
@@ -1101,7 +1123,7 @@ const STORY = {
     ],
     choices: [
       { label: "「一緒に見よう。何枚でも、何年でも」", eff: { hinata: 3 }, flag: { hinata_support: true }, next: "hinata_mid_4" },
-      { label: "「無理しないで。わたしがずっとそばにいるから」", eff: { hinata: 3 }, flag: { hinata_support: true }, next: "hinata_mid_4" },
+      { label: "「無理しないで。わたしがずっとそばにいるから」", eff: { hinata: 3 }, next: "hinata_mid_4" },
     ],
   },
   hinata_mid_4: {
@@ -1118,7 +1140,18 @@ const STORY = {
       "文化祭前夜。屋上で、ひなたはぽつりと言った。",
       "「絵ね、明日の朝には完成するの。文化祭で、初めて、みんなに見せる。」",
       "「完成したら……{name}さんに、いちばん最初に、伝えたいことがあるんだ。」",
-    ], next: "hinata_climax",
+    ], next: "hinata_night",
+  },
+  hinata_night: {
+    bg: "home_evening", who: "player", text: [
+      "（文化祭、前夜。ひなたの絵が、明日みんなの前に飾られる。）",
+      "（“いちばん最初に伝えたいこと”って、なんだろう。どんな自分で、聞きに行こう。）",
+    ],
+    choices: [
+      { label: "わくわくしながら、明日を待つ", flag: { hinata_b4: 0 }, next: "hinata_climax" },
+      { label: "少し不安。でも、ちゃんと隣にいる", flag: { hinata_b4: 1 }, next: "hinata_climax" },
+      { label: "覚悟を決めて、受け止める", flag: { hinata_b4: 2 }, next: "hinata_climax" },
+    ],
   },
   hinata_climax: {
     bg: "festival_night", who: "hinata", exp: "blush", text: [
@@ -1197,8 +1230,8 @@ const STORY = {
       "（凍りついた指は、本当は、誰よりも音楽を恋しがっているのに。）",
     ],
     choices: [
-      { label: "「君のせいじゃない。お姉さんは、君の音を信じてた」", eff: { shion: 4 }, flag: { shion_trust: true }, next: "shion_4_5a" },
-      { label: "「その約束、今からでも果たせる。わたしが聴くから」", eff: { shion: 4 }, flag: { shion_trust: true }, next: "shion_4_5b" },
+      { label: "「君のせいじゃない。お姉さんは、君の音を信じてた」", eff: { shion: 4 }, flag: { shion_b1: true }, next: "shion_4_5a" },
+      { label: "「その約束、今からでも果たせる。わたしが聴くから」", eff: { shion: 4 }, next: "shion_4_5b" },
     ],
   },
   shion_4_5a: {
@@ -1253,7 +1286,7 @@ const STORY = {
     ],
     choices: [
       { label: "「先輩の隣……すごく、落ち着きます」", eff: { shion: 3 }, flag: { shion_date: true }, next: "shion_mid_2" },
-      { label: "ドキドキを隠して、もう一音ねだる", eff: { shion: 3 }, flag: { shion_date: true }, next: "shion_mid_2" },
+      { label: "ドキドキを隠して、もう一音ねだる", eff: { shion: 3 }, next: "shion_mid_2" },
     ],
   },
   shion_mid_2: {
@@ -1265,7 +1298,7 @@ const STORY = {
     ],
     choices: [
       { label: "「一人で背負わないで。わたしが客席にいるから」", eff: { shion: 3 }, flag: { shion_support: true }, next: "shion_mid_3" },
-      { label: "そっと隣に座り、彼の手に手を重ねる", eff: { shion: 3 }, flag: { shion_support: true }, next: "shion_mid_3" },
+      { label: "そっと隣に座り、彼の手に手を重ねる", eff: { shion: 3 }, next: "shion_mid_3" },
     ],
   },
   shion_mid_3: {
@@ -1283,7 +1316,18 @@ const STORY = {
       "文化祭前夜。屋上で、シオンは夜風に髪をなびかせていた。初めて出会った、あの場所。",
       "「明日、弾く曲な。……まだ、誰にも言ってないタイトルがある。」",
       "「聴けば、わかる。俺の、今の気持ちが全部。……ちゃんと、受け取ってくれ。」",
-    ], next: "shion_climax",
+    ], next: "shion_night",
+  },
+  shion_night: {
+    bg: "rooftop_sunset", who: "player", text: [
+      "（文化祭、前夜。明日、シオン先輩は三年ぶりに、人前で弾く。）",
+      "（あの曲のタイトルの意味を、わたしは明日、知ることになる。）",
+    ],
+    choices: [
+      { label: "楽しみに、その瞬間を待つ", flag: { shion_b4: 0 }, next: "shion_climax" },
+      { label: "少し不安。でも、客席で見守る", flag: { shion_b4: 1 }, next: "shion_climax" },
+      { label: "覚悟を決めて、受け止める", flag: { shion_b4: 2 }, next: "shion_climax" },
+    ],
   },
   shion_climax: {
     bg: "auditorium_night", who: "shion", exp: "blush", text: [

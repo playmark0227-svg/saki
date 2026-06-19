@@ -36,7 +36,7 @@
   const els = {};
   function cacheEls() {
     [
-      "title-screen", "title-continue", "title-start", "title-about", "about-box",
+      "title-screen", "title-continue", "title-start", "title-about", "about-box", "title-collect",
       "game-screen", "bg", "petals", "stage", "affection-bar",
       "dialogue", "speaker", "text", "choices", "advance-hint",
       "daycard", "daycard-text", "name-modal", "name-input", "name-ok",
@@ -317,14 +317,41 @@
   }
 
   /* エンディング判定 */
+  /* エンディング判定：好感度でルート決定 → フラグ組み合わせで100通りを合成 */
   function resolveEnding(char) {
-    const aff = state.aff[char];
-    const thr = TRUE_THRESHOLD[char] != null ? TRUE_THRESHOLD[char] : 16;
-    let key;
-    if (state.flags[char + "_reject"]) key = char + "_bad";
-    else if (aff >= thr) key = char + "_true";
-    else key = char + "_good";
-    gotoScene(key);
+    const e = window.computeEnding(char, state.flags);
+    showComputedEnding(e);
+  }
+
+  const ENDINGS_KEY = "sakura7_endings_v1";
+  function getCollected() {
+    try { return JSON.parse(localStorage.getItem(ENDINGS_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function recordEnding(code) {
+    try {
+      const s = getCollected();
+      if (s.indexOf(code) < 0) { s.push(code); localStorage.setItem(ENDINGS_KEY, JSON.stringify(s)); }
+    } catch (e) {}
+  }
+
+  function showComputedEnding(e) {
+    setBackground(e.bg);
+    els["game-screen"].classList.remove("active");
+    els["ending-screen"].classList.add("active");
+    const c = CHARACTERS[e.who];
+    els["ending-title"].textContent = applyName(e.title);
+    els["ending-title"].style.color = c ? c.color : "#ff7aa8";
+    recordEnding(e.code);
+    const collected = getCollected().length;
+    let html = "";
+    html += `<div class="ending-no">ENDING No.${e.code} / ${e.total}　<span class="ending-rank">${e.rank}</span></div>`;
+    if (c) html += `<div class="ending-portrait" style="--c:${c.color}">${buildCharArt(e.who, e.exp || "happy")}</div>`;
+    html += `<div class="ending-body">` + (e.body || []).map((t) => `<p>${applyName(t)}</p>`).join("") + `</div>`;
+    html += `<p class="ending-fin">― 完 ―</p>`;
+    html += `<div class="ending-collect">エンディング回収　${collected} / 100 種</div>`;
+    els["ending-text"].innerHTML = html;
+    els["ending-screen"].scrollTop = 0;
+    clearSave();
   }
 
   /* =====================================================================
@@ -424,7 +451,14 @@
     els["ending-screen"].classList.remove("active");
     els["title-screen"].classList.add("active");
     els["title-continue"].style.display = hasSave() ? "inline-block" : "none";
+    refreshCollect();
     spawnPetals();
+  }
+
+  function refreshCollect() {
+    if (els["title-collect"]) {
+      els["title-collect"].textContent = "🌸 エンディング回収　" + getCollected().length + " / 100 種";
+    }
   }
 
   /* =====================================================================
@@ -434,6 +468,7 @@
     cacheEls();
     spawnPetals();
     els["title-continue"].style.display = hasSave() ? "inline-block" : "none";
+    refreshCollect();
 
     els["title-start"].onclick = () => { Sound.select(); if (!Sound.bgmOn) toggleBgmBtn(true); newGame(); };
     els["title-continue"].onclick = () => { Sound.select(); if (!Sound.bgmOn) toggleBgmBtn(true); load(); };

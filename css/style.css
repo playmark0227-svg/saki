@@ -189,7 +189,36 @@ html, body {
 #stage .portrait { animation: rise .45s ease-out; }
 @keyframes rise { from { transform: translateY(22px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .portrait-svg { width: 100%; height: auto; display: block; }
-.portrait-img { width: 100%; height: auto; display: block; animation: rise .45s ease-out; -webkit-user-drag: none; user-select: none; }
+.portrait-img { width: 100%; height: auto; display: block; -webkit-user-drag: none; user-select: none; }
+
+/* 立ち絵のアイドルアニメ（呼吸・ゆらぎ・わずかな歪みで“生きてる”動き） */
+@keyframes idleSway {
+  0%, 100% { transform: translateY(0) rotate(0deg) scaleX(1) scaleY(1) skewX(0deg); }
+  20%  { transform: translateY(-5px) rotate(0.5deg) scaleX(1.012) scaleY(0.99) skewX(0.5deg); }
+  50%  { transform: translateY(1px) rotate(0deg) scaleX(0.99) scaleY(1.014) skewX(0deg); }
+  80%  { transform: translateY(-4px) rotate(-0.5deg) scaleX(1.008) scaleY(0.992) skewX(-0.5deg); }
+}
+@keyframes idleBreathe {
+  0%, 100% { transform: scaleX(1) scaleY(1) translateY(0); }
+  50%      { transform: scaleX(0.99) scaleY(1.015) translateY(-2px); }
+}
+#stage .portrait-img, #stage .portrait-svg {
+  animation: idleSway 4.6s ease-in-out infinite;
+  transform-origin: 50% 95%; will-change: transform;
+}
+.ending-portrait .portrait-img, .ending-portrait .portrait-svg {
+  animation: idleBreathe 4s ease-in-out infinite; transform-origin: 50% 90%;
+}
+@media (prefers-reduced-motion: reduce) {
+  #stage .portrait-img, #stage .portrait-svg,
+  .ending-portrait .portrait-img, .ending-portrait .portrait-svg { animation: none; }
+}
+
+/* エンディング回収カウンター */
+.ending-no { color: #ffe0ef; font-size: 13px; letter-spacing: .08em; margin-bottom: 12px; }
+.ending-rank { display: inline-block; margin-left: 6px; padding: 2px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--pink), #9d7aff); vertical-align: middle; }
+.ending-collect { margin-top: 20px; color: #ffe0ef; font-size: 13px; letter-spacing: .05em; }
+#title-collect { margin-top: 16px; font-size: 13px; font-weight: 700; color: #8a5a6a; background: rgba(255,255,255,.66); padding: 6px 16px; border-radius: 16px; }
 
 /* 好感度パネル */
 #affection-bar {
