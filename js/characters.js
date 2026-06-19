@@ -411,12 +411,28 @@ function resolveArt(charId, exp) {
   return a[exp] || a.normal || a.smile || Object.values(a)[0];
 }
 
-/* 立ち絵を返す：AI画像があれば<img>、無ければ/失敗時はSVGへフォールバック */
+/* 立ち絵を返す：AI画像があればスライス変形アニメ、無ければSVG */
 function buildCharArt(charId, exp = "normal") {
   const path = resolveArt(charId, exp);
   if (!path) return buildPortrait(charId, exp);
-  return `<img class="portrait-img" src="${path}" alt="" draggable="false"
-    onerror="this.onerror=null;this.insertAdjacentHTML('afterend', window.buildPortrait('${charId}','${exp}'));this.remove();">`;
+  return buildWarpSprite(path);
+}
+
+/* 画像を横スライスに分割し、頭ほど大きく揺れる“進行波”で人が動くように見せる */
+function buildWarpSprite(path) {
+  const N = 12, MAXAMP = 6;   // スライス数 / 最大横揺れ(px)
+  let strips = "";
+  for (let i = 0; i < N; i++) {
+    const top = (i * 100 / N).toFixed(3);
+    const h = (100 / N).toFixed(3);
+    const posY = (i * 100 / (N - 1)).toFixed(3);
+    const amp = ((1 - i / (N - 1)) * MAXAMP).toFixed(2); // 上(頭)ほど大、下(足)は0
+    const delay = (-(i * 0.13)).toFixed(2);              // 位相をずらして波にする
+    strips += `<i class="strip" style="top:${top}%;height:calc(${h}% + 1px);` +
+      `background-image:url('${path}');background-position:50% ${posY}%;` +
+      `--amp:${amp}px;animation-delay:${delay}s"></i>`;
+  }
+  return `<div class="sprite-warp" style="--n:${N}">${strips}</div>`;
 }
 
 window.CHARACTERS = CHARACTERS;

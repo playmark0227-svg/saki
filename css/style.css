@@ -191,27 +191,36 @@ html, body {
 .portrait-svg { width: 100%; height: auto; display: block; }
 .portrait-img { width: 100%; height: auto; display: block; -webkit-user-drag: none; user-select: none; }
 
-/* 立ち絵のアイドルアニメ（呼吸・ゆらぎ・わずかな歪みで“生きてる”動き） */
-@keyframes idleSway {
-  0%, 100% { transform: translateY(0) rotate(0deg) scaleX(1) scaleY(1) skewX(0deg); }
-  20%  { transform: translateY(-5px) rotate(0.5deg) scaleX(1.012) scaleY(0.99) skewX(0.5deg); }
-  50%  { transform: translateY(1px) rotate(0deg) scaleX(0.99) scaleY(1.014) skewX(0deg); }
-  80%  { transform: translateY(-4px) rotate(-0.5deg) scaleX(1.008) scaleY(0.992) skewX(-0.5deg); }
+/* 横スライス変形で“人が立って動いている”立ち絵アニメ
+   各スライスを位相差つきで横揺れ → 頭ほど大きく、足元はほぼ不動の進行波。
+   全体は呼吸（scaleY）＋わずかな重心移動。 */
+.sprite-warp {
+  position: relative; width: 100%; aspect-ratio: 896 / 1200;
+  transform-origin: 50% 100%;
+  animation: humanBreathe 3.8s ease-in-out infinite;
+  filter: drop-shadow(0 12px 18px rgba(60,20,40,.28));
 }
-@keyframes idleBreathe {
-  0%, 100% { transform: scaleX(1) scaleY(1) translateY(0); }
-  50%      { transform: scaleX(0.99) scaleY(1.015) translateY(-2px); }
+.sprite-warp .strip {
+  position: absolute; left: 0; width: 100%; display: block;
+  background-repeat: no-repeat; background-size: 100% calc(100% * var(--n));
+  animation: humanWave 3.6s ease-in-out infinite;
+  will-change: transform;
 }
-#stage .portrait-img, #stage .portrait-svg {
-  animation: idleSway 4.6s ease-in-out infinite;
-  transform-origin: 50% 95%; will-change: transform;
+@keyframes humanWave {
+  0%, 100% { transform: translateX(calc(var(--amp) * -1)) skewX(0deg); }
+  50%      { transform: translateX(var(--amp)) skewX(0.5deg); }
 }
-.ending-portrait .portrait-img, .ending-portrait .portrait-svg {
-  animation: idleBreathe 4s ease-in-out infinite; transform-origin: 50% 90%;
+@keyframes humanBreathe {
+  0%, 100% { transform: scaleY(1) translateY(0) rotate(0deg); }
+  35%      { transform: scaleY(1.013) translateY(-1px) rotate(0.3deg); }
+  70%      { transform: scaleY(1.006) translateY(0) rotate(-0.3deg); }
 }
+/* SVGフォールバック用の簡易アイドル */
+@keyframes idleSway { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(0.5deg); } }
+#stage .portrait-svg { animation: idleSway 4.6s ease-in-out infinite; transform-origin: 50% 95%; }
+.ending-portrait .portrait-svg { animation: idleSway 4s ease-in-out infinite; transform-origin: 50% 90%; }
 @media (prefers-reduced-motion: reduce) {
-  #stage .portrait-img, #stage .portrait-svg,
-  .ending-portrait .portrait-img, .ending-portrait .portrait-svg { animation: none; }
+  .sprite-warp, .sprite-warp .strip, #stage .portrait-svg, .ending-portrait .portrait-svg { animation: none !important; }
 }
 
 /* エンディング回収カウンター */

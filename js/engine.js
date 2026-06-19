@@ -436,7 +436,26 @@
     els["title-screen"].classList.remove("active");
     els["ending-screen"].classList.remove("active");
     els["game-screen"].classList.add("active");
+    preloadSprites();
     spawnPetals();
+  }
+
+  // 立ち絵画像を事前読み込み。失敗したらSVGにフォールバックさせる。
+  let _preloaded = false;
+  function preloadSprites() {
+    if (_preloaded || !window.CHAR_ART) return;
+    _preloaded = true;
+    Object.keys(window.CHAR_ART).forEach((id) => {
+      const p = window.CHAR_ART[id];
+      if (!p || typeof p !== "string") return;
+      const im = new Image();
+      im.onerror = function () {
+        window.CHAR_ART[id] = null;
+        const sc = STORY[state.scene];
+        if (sc && sc.who === id) renderPortrait(id, sc.exp || "normal");
+      };
+      im.src = p;
+    });
   }
 
   function newGame() {
