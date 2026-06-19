@@ -420,7 +420,7 @@ function buildCharArt(charId, exp = "normal") {
 
 /* 画像を横スライスに分割し、頭ほど大きく揺れる“進行波”で人が動くように見せる */
 function buildWarpSprite(path) {
-  const N = 12, MAXAMP = 6;   // スライス数 / 最大横揺れ(px)
+  const N = 12, MAXAMP = 2;   // スライス数 / 最大横揺れ(px) ※ごく控えめ
   let strips = "";
   for (let i = 0; i < N; i++) {
     const top = (i * 100 / N).toFixed(3);
