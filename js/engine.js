@@ -41,7 +41,7 @@
       "dialogue", "speaker", "text", "choices", "advance-hint",
       "daycard", "daycard-text", "name-modal", "name-input", "name-ok",
       "ending-screen", "ending-title", "ending-text", "ending-restart", "ending-title-btn",
-      "btn-save", "btn-load", "btn-bgm", "btn-title", "toast",
+      "btn-save", "btn-load", "btn-bgm", "btn-voice", "btn-title", "toast",
     ].forEach((k) => (els[k] = $(k)));
   }
 
@@ -105,6 +105,60 @@
     toggleBgm() {
       if (this.bgmOn) { this.stopBgm(); return false; }
       this.startBgm(); return true;
+    },
+  };
+
+  /* =====================================================================
+   * フルナレーション（Web Speech API・端末内蔵の日本語音声で自動読み上げ）
+   * キャラごとに声の高さ・速さを変えて演じ分ける。
+   * ===================================================================== */
+  const Voice = {
+    on: true, voice: null, KEY: "sakura7_voice_v1",
+    supported: ("speechSynthesis" in window),
+    init() {
+      if (!this.supported) { this.on = false; return; }
+      try { const s = localStorage.getItem(this.KEY); if (s !== null) this.on = (s === "1"); } catch (e) {}
+      const pick = () => {
+        const vs = speechSynthesis.getVoices();
+        this.voice =
+          vs.find(v => v.lang === "ja-JP" && /Google/i.test(v.name)) ||
+          vs.find(v => (v.lang || "").indexOf("ja") === 0) || null;
+      };
+      pick();
+      if (typeof speechSynthesis.onvoiceschanged !== "undefined") speechSynthesis.onvoiceschanged = pick;
+    },
+    params(who) {
+      switch (who) {
+        case "player": return { pitch: 1.35, rate: 1.02 }; // さき（女の子）
+        case "saki":   return { pitch: 1.02, rate: 1.1  }; // 陽：元気
+        case "yukino": return { pitch: 0.8,  rate: 0.98 }; // 怜：低く落ち着き
+        case "hinata": return { pitch: 1.12, rate: 0.92 }; // ひなた：やわらかく
+        case "shion":  return { pitch: 0.72, rate: 0.95 }; // シオン：低音
+        default:       return { pitch: 1.0,  rate: 1.0  }; // 地の文
+      }
+    },
+    speak(text, who) {
+      if (!this.on || !this.supported) return;
+      speechSynthesis.cancel();
+      const clean = (text || "")
+        .replace(/[「」『』“”]/g, "")
+        .replace(/[―—…]+/g, "、")
+        .replace(/[（）()]/g, "")
+        .trim();
+      if (!clean) return;
+      const u = new SpeechSynthesisUtterance(clean);
+      if (this.voice) u.voice = this.voice;
+      u.lang = "ja-JP";
+      const p = this.params(who);
+      u.pitch = p.pitch; u.rate = p.rate; u.volume = 0.9;
+      speechSynthesis.speak(u);
+    },
+    stop() { if (this.supported) speechSynthesis.cancel(); },
+    toggle() {
+      this.on = !this.on;
+      if (!this.on) this.stop();
+      try { localStorage.setItem(this.KEY, this.on ? "1" : "0"); } catch (e) {}
+      return this.on;
     },
   };
 
@@ -270,7 +324,9 @@
     els.choices.innerHTML = "";
     els.choices.style.display = "none";
     const pages = sc.text || [""];
-    typeText(applyName(pages[state.page]));
+    const line = applyName(pages[state.page]);
+    typeText(line);
+    Voice.speak(line, sc.who);
   }
 
   function advance() {
@@ -335,6 +391,7 @@
   }
 
   function showComputedEnding(e) {
+    Voice.stop();
     setBackground(e.bg);
     els["game-screen"].classList.remove("active");
     els["ending-screen"].classList.add("active");
@@ -351,6 +408,7 @@
     html += `<div class="ending-collect">エンディング回収　${collected} / 100 種</div>`;
     els["ending-text"].innerHTML = html;
     els["ending-screen"].scrollTop = 0;
+    if (e.body) Voice.speak(e.body.map((t) => applyName(t)).join("。 "), e.who);
     clearSave();
   }
 
@@ -466,6 +524,7 @@
 
   function backToTitle() {
     Sound.select();
+    Voice.stop();
     els["game-screen"].classList.remove("active");
     els["ending-screen"].classList.remove("active");
     els["title-screen"].classList.add("active");
@@ -485,6 +544,8 @@
    * ===================================================================== */
   function init() {
     cacheEls();
+    Voice.init();
+    updateVoiceBtn();
     spawnPetals();
     els["title-continue"].style.display = hasSave() ? "inline-block" : "none";
     refreshCollect();
@@ -507,6 +568,7 @@
     els["btn-save"].onclick = (e) => { e.stopPropagation(); Sound.blip(); save(); };
     els["btn-load"].onclick = (e) => { e.stopPropagation(); Sound.blip(); load(); };
     els["btn-bgm"].onclick = (e) => { e.stopPropagation(); toggleBgmBtn(); };
+    els["btn-voice"].onclick = (e) => { e.stopPropagation(); Sound.blip(); toggleVoiceBtn(); };
     els["btn-title"].onclick = (e) => { e.stopPropagation(); backToTitle(); };
 
     // エンディング
@@ -523,6 +585,18 @@
         advance();
       }
     });
+  }
+
+  function toggleVoiceBtn() {
+    const on = Voice.toggle();
+    updateVoiceBtn(on);
+    toast(on ? "朗読 ON 🔊" : "朗読 OFF 🔇");
+  }
+  function updateVoiceBtn(on) {
+    if (on === undefined) on = Voice.on;
+    if (!Voice.supported) { if (els["btn-voice"]) els["btn-voice"].style.display = "none"; return; }
+    els["btn-voice"].textContent = on ? "🔊 朗読" : "🔇 朗読";
+    els["btn-voice"].classList.toggle("muted", !on);
   }
 
   function toggleBgmBtn(forceOn) {
